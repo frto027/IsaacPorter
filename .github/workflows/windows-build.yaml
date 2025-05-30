@@ -2,11 +2,11 @@ name: Windows CMake Build with vcpkg
 
 on:
   push:
-    branches: [ v1 ]
+    branches: [ master ]
     paths-ignore:
       - '**/*.md'
   pull_request:
-    branches: [ v1 ]
+    branches: [ master ]
     paths-ignore:
       - '**/*.md'
 
