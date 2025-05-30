@@ -38,8 +38,8 @@ jobs:
           # 查找 IsaacPorterGUI.exe
           $exe = Get-ChildItem -Recurse -Filter IsaacPorterGUI.exe | Where-Object { $_.FullName -match 'Release' }
           Copy-Item $exe.FullName artifacts\
-          # 查找 glfw32.dll
-          $dll = Get-ChildItem -Recurse -Filter glfw32.dll
+          # 查找 glfw3.dll
+          $dll = Get-ChildItem -Recurse -Filter glfw3.dll
           Copy-Item $dll.FullName artifacts\
 
       - name: Upload artifact
