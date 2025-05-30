@@ -101,13 +101,13 @@ void RenderSaveInfo(IsaacSave::SaveData &saveData, bool editable, SaveInfoUI& ui
 					ImGui::Separator();
 
 					int single_width = 100;
-					int achi_per_line = (ImGui::GetWindowWidth() - 20) / single_width;
+					int achi_per_line = ((int)ImGui::GetWindowWidth() - 20) / single_width;
 					if (achi_per_line == 0)
 						achi_per_line = 1;
 					for (int i = 0; i < achi->achis.size(); i++) {
 						int line_index = i % achi_per_line;
 						if (line_index != 0)
-							ImGui::SameLine(line_index * single_width);
+							ImGui::SameLine((float)line_index * single_width);
 						char buff[128];
 						bool v = achi->achis[i];
 						sprintf_s(buff, u8"成就%d", i);

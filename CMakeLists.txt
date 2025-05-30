@@ -9,20 +9,20 @@ endif()
 project ("IsaacPorter")
 
 ################## imgui #########
-add_executable (ImguiApp "imgui/gui.cpp"  "IsaacSave.h" "imgui/main.cpp" "imgui/lang.cpp")
+add_executable (IsaacPorterGUI "imgui/gui.cpp"  "IsaacSave.h" "imgui/main.cpp" "imgui/lang.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET ImguiApp PROPERTY CXX_STANDARD 17)
+  set_property(TARGET IsaacPorterGUI PROPERTY CXX_STANDARD 17)
 endif()
 
 find_package(glfw3 CONFIG REQUIRED)
-target_link_libraries(ImguiApp PRIVATE glfw)
+target_link_libraries(IsaacPorterGUI PRIVATE glfw)
 
 find_package(glad CONFIG REQUIRED)
-target_link_libraries(ImguiApp PRIVATE glad::glad)
+target_link_libraries(IsaacPorterGUI PRIVATE glad::glad)
 
 find_package(imgui CONFIG REQUIRED)
-target_link_libraries(ImguiApp PRIVATE imgui::imgui)
+target_link_libraries(IsaacPorterGUI PRIVATE imgui::imgui)
 
 
 ################# cli ############
