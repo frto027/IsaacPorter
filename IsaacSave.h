@@ -533,7 +533,7 @@ namespace IsaacSave {
 		return ~checksum;
 	}
 
-	void FixChecksumForFile(std::string path) {
+	inline void FixChecksumForFile(std::string path) {
 
 		std::fstream in(path, std::ios::in | std::ios::out | std::ios::binary);
 		in.seekg(-4, std::ios::end);

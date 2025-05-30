@@ -1,15 +1,14 @@
-# IsaacSaveEditor
+# IsaacPorter
 
 - Downgrade the rep+ savedata to rep
-- Merge a repentence savedata with a repentence plus save data. TBD
-- Lock/Unlock any achievement. TBD
-- Edit any counters inside the save data. TBD
+- Merge a repentence savedata with a repentence plus save data.
+- Lock/Unlock any achievement.
+- Edit any counters inside the save data.
+- Edit the collectible info inside the save data.
 
-Don't use it, because it is not tested.
+Don't use it, it is not fully tested.
 
-Help wanted.
-
-Feedback wanted.
+And not translated to english...
 
 # Project
 
