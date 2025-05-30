@@ -1,0 +1,49 @@
+name: Windows CMake Build with vcpkg
+
+on:
+  push:
+    branches: [ v1 ]
+    paths-ignore:
+      - '**/*.md'
+  pull_request:
+    branches: [ v1 ]
+    paths-ignore:
+      - '**/*.md'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgJsonGlob: '**/vcpkg.json'
+      
+      - name: Configure CMake
+        run: |
+          cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+
+      - name: Build
+        run: |
+          cmake --build build --config Release
+
+      - name: Find and copy artifacts
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          mkdir artifacts
+          # 查找 IsaacPorterGUI.exe
+          $exe = Get-ChildItem -Recurse -Filter IsaacPorterGUI.exe | Where-Object { $_.FullName -match 'Release' }
+          Copy-Item $exe.FullName artifacts\
+          # 查找 glfw32.dll
+          $dll = Get-ChildItem -Recurse -Filter glfw32.dll
+          Copy-Item $dll.FullName artifacts\
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: IsaacPorter-Windows-Release
+          path: artifacts/
