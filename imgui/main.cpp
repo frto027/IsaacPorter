@@ -10,6 +10,10 @@
 
 #include "unifont.inl"
 
+void OnDrop(GLFWwindow* window, int path_count, const char* paths[]) {
+    RenderUIDrop(path_count, paths);
+}
+
 int main(void)
 {
     GLFWwindow* window;
@@ -19,13 +23,12 @@ int main(void)
         return -1;
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Reverter", NULL, NULL);
+    window = glfwCreateWindow(640, 480, "IsaacSaveEditor", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
         return -1;
     }
-
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
@@ -49,6 +52,7 @@ int main(void)
     io.Fonts->AddFontFromMemoryTTF(unifont, sizeof(unifont), 16, &fontConfig, io.Fonts->GetGlyphRangesChineseFull());
     io.Fonts->Build();
 
+    glfwSetDropCallback(window, OnDrop);
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))

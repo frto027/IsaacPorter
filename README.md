@@ -1,8 +1,9 @@
-# IsaacSaveData reverter
+# IsaacSaveEditor
 
-This program revert your game's `rep+persistentgamedata1.dat` to a `rep_persistentgamedata1.dat`.
-
-All it does is remove the achievement and counters data that online coop added. 
+- Downgrade the rep+ savedata to rep
+- Merge a repentence savedata with a repentence plus save data. TBD
+- Lock/Unlock any achievement. TBD
+- Edit any counters inside the save data. TBD
 
 Don't use it, because it is not tested.
 

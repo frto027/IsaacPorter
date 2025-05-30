@@ -109,6 +109,7 @@ namespace IsaacSave {
 
 	template<int type>
 	struct Block : public BlockBase {
+		static const int block_type_value = type;
 		virtual int block_type() override {
 			return type;
 		}
@@ -379,6 +380,17 @@ namespace IsaacSave {
 			new Bypass<10>(),//specialseedcounters
 			new BestiaryBlock(),
 		};
+
+		template<typename T>
+		T* GetComponent() {
+			int v = T::block_type_value;
+			for (auto it = blocks.begin(); it != blocks.end(); ++it) {
+				if ((*it)->is_already_readed && (*it)->block_type() == v) {
+					return dynamic_cast<T*>(*it);
+				}
+			}
+			return nullptr;
+		}
 
 		int blocks_readed_count = 0;
 
