@@ -49,9 +49,10 @@ void test() {
 }
 
 void read_debug() {
-	//SaveData s("E:\\rep.dat");
+	SaveData s("E:\\rep.dat");
 	//std::cerr << "=============================\n";
 	SaveData s2("E:\\repp.dat");
+	/*
 	s2.cut(VER_REP);
 	std::cout << "revert the save data\n";
 	s2.WriteTo("E:\\repp.revert.dat");
@@ -62,9 +63,11 @@ void read_debug() {
 	std::cout << "read back check\n";
 	SaveData s3("E:\\repp.revert.dat");
 	std::cout << "Done\n";
+	*/
 }
 
 int main(int argc, char** argv) {
+	verbose = true;
 	read_debug();
 	return 0;
 }

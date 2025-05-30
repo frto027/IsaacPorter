@@ -38,7 +38,7 @@ bool RenderDragDropThings() {
 			return false;
 		}
 		ImGui::Text("\n\n");
-		ImGui::Text(u8"  将文件拖拽至此以接收");
+		ImGui::Text(u8"  将文件拖拽至此以进行输入");
 		ImGui::SameLine();
 		if (ImGui::Button(u8"取消")) {
 			dragDropFile.file_wanted = false;
@@ -86,7 +86,7 @@ struct SaveInfoUI {
 void RenderSaveInfo(IsaacSave::SaveData &saveData, bool editable, SaveInfoUI& ui) {
 	auto achi = saveData.GetComponent<IsaacSave::AchievementBlock>();
 	if (achi) {
-		ImGui::Text(u8"全成就数量：%d", achi->achis.size());
+		ImGui::Text(u8"成就槽数量：%d", achi->achis.size());
 
 		if (editable) {
 			ImGui::SameLine();
@@ -98,6 +98,7 @@ void RenderSaveInfo(IsaacSave::SaveData &saveData, bool editable, SaveInfoUI& ui
 					if (ImGui::Button(u8"关闭##achi")) {
 						ui.achiEdit = false;
 					}
+					ImGui::Separator();
 
 					int single_width = 100;
 					int achi_per_line = (ImGui::GetWindowWidth() - 20) / single_width;
@@ -124,7 +125,7 @@ void RenderSaveInfo(IsaacSave::SaveData &saveData, bool editable, SaveInfoUI& ui
 
 	auto counter = saveData.GetComponent<IsaacSave::CounterBlock>();
 	if (counter) {
-		ImGui::Text(u8"计数器数量：%d", counter->counters.size());
+		ImGui::Text(u8"计数器槽数量：%d", counter->counters.size());
 		if (editable) {
 			ImGui::SameLine();
 			if (ImGui::Button(u8"编辑##counter")) {
@@ -137,6 +138,7 @@ void RenderSaveInfo(IsaacSave::SaveData &saveData, bool editable, SaveInfoUI& ui
 					}
 					ImGui::SameLine();
 					ImGui::Text(u8"范围：%d 至 %d", INT_MIN, INT_MAX);
+					ImGui::Separator();
 
 					for (int i = 0; i < counter->counters.size(); i++) {
 						char buff[128];
@@ -156,7 +158,7 @@ void RenderSaveInfo(IsaacSave::SaveData &saveData, bool editable, SaveInfoUI& ui
 
 	auto collectible = saveData.GetComponent<IsaacSave::CollectibleBlock>();
 	if (collectible) {
-		ImGui::Text(u8"道具目击档案数量：%d", collectible->counters.size());
+		ImGui::Text(u8"道具槽数量：%d", collectible->counters.size());
 		if (editable) {
 			ImGui::SameLine();
 			if (ImGui::Button(u8"编辑##collectible")) {
@@ -168,7 +170,7 @@ void RenderSaveInfo(IsaacSave::SaveData &saveData, bool editable, SaveInfoUI& ui
 					if (ImGui::Button(u8"关闭##collectible")) {
 						ui.collectibleEdit = false;
 					}
-					ImGui::SameLine();
+					ImGui::Separator();
 					for (int i = 0; i < collectible->counters.size(); i++) {
 						char buff[128];
 						sprintf_s(buff, u8"道具%d", i);
@@ -375,6 +377,8 @@ void RenderMainContent() {
 
 
 void RenderUI() {
+	static bool warning_display = true;
+
 	ImGui::SetNextWindowPos(ImVec2(0, 0));
 	ImGui::SetNextWindowSize(ImGui::GetMainViewport()->Size);
 	if (ImGui::Begin("full", NULL, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBringToFrontOnFocus)) {
@@ -384,7 +388,20 @@ void RenderUI() {
 		subsize.y -= 20;
 		ImGui::SetNextWindowSize(subsize);
 
-		RenderMainContent();
+		if (warning_display) {
+			ImGui::Text(u8"警告：修改存档有风险，请谨慎修改，及时备份。");
+			ImGui::Spacing();
+			ImGui::Text(u8"此软件可用于对《以撒的结合：忏悔/忏悔+》的存档修改/迁移");
+			ImGui::Spacing();
+			ImGui::Text(u8"软件作者：@Frto027");
+			if (ImGui::Button(u8"继续操作")) {
+				warning_display = false;
+			}
+		}
+		else {
+			RenderMainContent();
+		}
+
 		ImGui::End();
 	}
 }
