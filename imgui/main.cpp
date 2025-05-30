@@ -7,7 +7,7 @@
 #include <imgui_impl_opengl3.h>
 
 #include "gui.h"
-
+#include "./version.h"
 #include "unifont.inl"
 
 void OnDrop(GLFWwindow* window, int path_count, const char* paths[]) {
@@ -23,7 +23,7 @@ int main(void)
         return -1;
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(480, 640, "IsaacPorter", NULL, NULL);
+    window = glfwCreateWindow(480, 640, "IsaacPorter v" VERSION, NULL, NULL);
     if (!window)
     {
         glfwTerminate();
