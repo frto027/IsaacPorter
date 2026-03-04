@@ -39,7 +39,7 @@ jobs:
           $exe = Get-ChildItem -Recurse -Filter IsaacPorterGUI.exe | Where-Object { $_.FullName -match 'Release' }
           Copy-Item $exe.FullName artifacts\
           # 查找 glfw3.dll
-          $dll = Get-ChildItem -Recurse -Filter glfw3.dll
+          $dll = Get-ChildItem -Recurse -Filter glfw3.dll | Where-Object { $_.FullName -notmatch 'debug' }
           Copy-Item $dll.FullName artifacts\
 
       - name: Upload artifact
