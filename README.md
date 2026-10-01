@@ -19,3 +19,7 @@ You can build the project with cmake. We have some cmake target here.
 - `imgui` you need vcpkg to build this target. you can use the CMakePresets.json, and set VCPKG_ROOT properly.
 - `cli` a commandline tools.
 - `test` just some hard coded test for debug.
+
+Regression tests are registered with CTest. After building, run
+`ctest --test-dir build -C Release --output-on-failure`.
+These tests generate their own counter blocks and do not require a game save.

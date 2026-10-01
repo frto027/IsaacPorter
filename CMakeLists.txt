@@ -45,3 +45,9 @@ endif()
 
 
 
+
+# Deterministic regression tests; no external save files are required.
+add_executable(CompletionMarksTest "test/completion_marks.cpp" "IsaacSave.h")
+set_property(TARGET CompletionMarksTest PROPERTY CXX_STANDARD 17)
+enable_testing()
+add_test(NAME completion_marks COMMAND CompletionMarksTest)

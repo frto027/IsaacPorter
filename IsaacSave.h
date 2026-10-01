@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <exception>
+#include <stdexcept>
 #include <fstream>
 
 namespace IsaacSave {
@@ -151,6 +152,16 @@ namespace IsaacSave {
 
 	};
 	struct CounterBlock : public Block<2> {
+		// Completion mark IDs: https://repentogon.com/enums/EventCounter.html
+		static bool IsCompletionCounter(uint32_t index) {
+			return (index >= 27 && index <= 110) ||
+				(index >= 116 && index <= 157) ||
+				(index >= 173 && index <= 186) ||
+				(index >= 203 && index <= 211) ||
+				(index >= 213 && index <= 384) ||
+				(index >= 404 && index <= 490);
+		}
+
 		std::vector<uint32_t>counters;
 		uint32_t element_count() override { return (uint32_t)counters.size(); }
 
@@ -165,10 +176,25 @@ namespace IsaacSave {
 
 		virtual void cut_impl(GameVersion version) override {
 			if (VER_REP == version) {
+				// Validate before changing the block, including its length.
+				for (uint32_t i = 0; i < counters.size() && i < 496; ++i) {
+					if (IsCompletionCounter(i) && (counters[i] & ~0xFu)) {
+						throw std::runtime_error("Unsupported completion mark flags at counter " + std::to_string(i));
+					}
+				}
 				while (counters.size() > 496) {
 					uint32_t value = counters.back();
 					counters.pop_back();
 					std::cout << "drop counter " << counters.size() << ", the value is " << value << "\n";
+				}
+
+				// Rep+ uses offline normal/hard bits (1, 2) and online bits (4, 8).
+				// Rep expects 0/1/2: keep the highest earned difficulty from either mode.
+				for (uint32_t i = 0; i < counters.size(); ++i) {
+					if (IsCompletionCounter(i)) {
+						uint32_t flags = counters[i];
+						counters[i] = (flags & 0xAu) ? 2u : ((flags & 0x5u) ? 1u : 0u);
+					}
 				}
 
 			}

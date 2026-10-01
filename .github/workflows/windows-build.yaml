@@ -30,6 +30,9 @@ jobs:
         run: |
           cmake --build build --config Release
 
+      - name: Run regression tests
+        run: ctest --test-dir build -C Release --output-on-failure
+
       - name: Find and copy artifacts
         shell: pwsh
         run: |
